@@ -24,9 +24,7 @@ describe('Home page flow', ()=> {
                 .contains('https://images.unsplash.com/photo-1470114716159-e389f8712fda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80')
     })
     it('Should be able to visist the app and view the form with the proper inputs', ()=> {
-        cy.intercept('GET', 'http://localhost:3001/api/v1/urls', urlDataSet)
-        cy.visit('http://localhost:3000')
-            .get('form [name="title"]').first()
+        cy.get('form [name="title"]').first()
             .get('input').first()
                 .invoke('attr', 'placeholder')
                 .should('contain', 'Title...')
