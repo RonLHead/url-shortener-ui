@@ -1,10 +1,10 @@
-import urlDataSet from "./url_shortener_data";
-
 describe('Home page flow', ()=> {
-    it('Should be able to visist the app and render the correct elements', ()=> {
-        cy.intercept('GET', 'http://localhost:3001/api/v1/urls', urlDataSet)
+    beforeEach(()=> {
+        cy.intercept('GET', 'http://localhost:3001/api/v1/urls', { fixture: 'mock_data_1.json' })
         cy.visit('http://localhost:3000')
-            .contains('URL Shortener')
+    })
+    it('Should be able to visist the app and render the correct elements', ()=> {
+        cy.contains('URL Shortener')
             .get('form')
             .get('div')
                 .should('have.class', 'url')
@@ -17,7 +17,7 @@ describe('Home page flow', ()=> {
                 .get('div')
                 .should('have.class', 'url')
             .get('h3')
-                .contains('Awesome photo')
+                .contains('Awesome photo 2')
             .get('a')
                 .contains('http://localhost:3001/useshorturl/2')
             .get('p')
@@ -39,13 +39,15 @@ describe('Home page flow', ()=> {
         cy.get('form').then(($form) => {
             cy.contains('URL Shortener')
                 .get('form [name="title"]').first()
-                    .type('https://images.pexels.com/photos/210243/pexels-photo-210243.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+                    .type('Mountain photo')
                 .get('input').first()
                     .invoke('attr', 'value')
-                    .should('contain', 'https://images.pexels.com/photos/210243/pexels-photo-210243.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+                    .should('contain', 'Mountain photo')
+                .get('form [name="urlToShorten"]')
+                    .type('https://media.istockphoto.com/photos/aerial-view-of-misty-mountains-at-sunrise-picture-id1195458582?k=20&m=1195458582&s=612x612&w=0&h=gzpAJTwppTIEAhNbUaHnjuRQoYon0F4C87UQ3xXv1oU=')
                 .get('input').next()
                     .invoke('attr', 'value')
-                    .should('contain', 'https://images.pexels.com/photos/210243/pexels-photo-210243.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500')
+                    .should('contain', 'https://media.istockphoto.com/photos/aerial-view-of-misty-mountains-at-sunrise-picture-id1195458582?k=20&m=1195458582&s=612x612&w=0&h=gzpAJTwppTIEAhNbUaHnjuRQoYon0F4C87UQ3xXv1oU=')
         })
     })
 })
