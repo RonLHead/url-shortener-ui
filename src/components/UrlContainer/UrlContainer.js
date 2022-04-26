@@ -2,8 +2,6 @@ import React from 'react';
 import './UrlContainer.css';
 
 const UrlContainer = props => {
-console.log(typeof props.urls)
-console.log(props)
   const urlEls = props.urls.map(url => {
 
     return (
